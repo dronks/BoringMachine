@@ -220,6 +220,7 @@ void setting_mode () {
   if (setMode == 10) {
       if ((millis() - lastPrint) > 250) {
         if (lcdFree) {
+          lcdFree = 0;
           lcd.clear();
           lcd.setCursor(0, 0);
           lcd.print(" manualMaxSpeed ");
@@ -277,6 +278,7 @@ void setting_mode () {
   if (setMode == 11) {
       if ((millis() - lastPrint) > 250) {
         if (lcdFree) {
+          lcdFree = 0;
           lcd.clear();
           lcd.setCursor(0, 0);
           lcd.print("  manualSpeed   ");
@@ -335,6 +337,7 @@ void setting_mode () {
   if (setMode == 12) {
       if ((millis() - lastPrint) > 250) {
         if (lcdFree) {
+          lcdFree = 0;
           lcd.clear();
           lcd.setCursor(0, 0);
           lcd.print("  Acceleration  ");
@@ -392,6 +395,7 @@ void setting_mode () {
   if (setMode == 20) {
       if ((millis() - lastPrint) > 250) {
         if (lcdFree) {
+          lcdFree = 0;
           lcd.clear();
           lcd.setCursor(0, 0);
           lcd.print("  autoDistance  ");
@@ -452,6 +456,7 @@ void setting_mode () {
   if (setMode == 21) {
       if ((millis() - lastPrint) > 250) {
         if (lcdFree) {
+          lcdFree = 0;
           lcd.clear();
           lcd.setCursor(0, 0);
           lcd.print(" autoDirection  ");
@@ -497,6 +502,7 @@ void setting_mode () {
   if (setMode == 22) {
       if ((millis() - lastPrint) > 250) {
         if (lcdFree) {
+          lcdFree = 0;
           lcd.clear();
           lcd.setCursor(0, 0);
           lcd.print("   autoSpeed    ");
@@ -554,6 +560,7 @@ void setting_mode () {
   if (setMode == 30) {
       if ((millis() - lastPrint) > 250) {
         if (lcdFree) {
+          lcdFree = 0;
           lcd.clear();
           lcd.setCursor(0, 0);
           lcd.print("  Backlighting  ");

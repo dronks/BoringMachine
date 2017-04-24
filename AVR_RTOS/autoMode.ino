@@ -40,7 +40,7 @@ void auto_mode() {
   if (stepper1.distanceToGo() != 0 ) {// Full speed up to 300
     //stepper1.run();
     if (button == BUTTON_LEFT) {
-      vTaskDelay(10);
+      //vTaskDelay(10);
       button = BUTTON_NONE;
       if (autoPause) {
         autoPause = 0;
@@ -52,7 +52,8 @@ void auto_mode() {
           lcd.print("  Pause         ");
           lcdFree = 1;
         }
-        ST1 = 1; 
+        ST1 = 1;
+        vTaskDelay(10); 
       }
       else {
         autoPause = 1;
@@ -65,6 +66,7 @@ void auto_mode() {
           lcdFree = 1;
         }
         ST1 = 0;
+        vTaskDelay(10);
       }
     }
     if (button == BUTTON_BACK) {
