@@ -161,6 +161,9 @@ void setup() {
     pinMode(PA0, INPUT_PULLUP); //keyboard 1
     pinMode(PA1, INPUT_PULLUP); //keyboard 2
 
+    stepper1.setMinPulseWidth  (20); 
+
+
     lcd.createChar(0, Up);
     lcd.createChar(1, Down);
     lcd.clear();
@@ -188,12 +191,12 @@ void setup() {
 
     vSemaphoreCreateBinary(xDisplayFree);
     
-    xTaskCreate(vPowerPumpTask,
-                "PowerPump",
-                configMINIMAL_STACK_SIZE,
-                NULL,
-                1, //tskIDLE_PRIORITY + 2,
-                NULL);
+    //xTaskCreate(vPowerPumpTask,
+    //            "PowerPump",
+    //            configMINIMAL_STACK_SIZE,
+    //            NULL,
+    //            1, //tskIDLE_PRIORITY + 2,
+    //            NULL);
     
 
     //xTaskCreate(vRTClockTask,
@@ -209,7 +212,7 @@ void setup() {
       ,  (const portCHAR *)"LCD"   // A name just for humans
       ,  512  // This stack size can be checked & adjusted by reading the Stack Highwater
       ,  NULL
-      ,  2 //tskIDLE_PRIORITY + 2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+      ,  1 //tskIDLE_PRIORITY + 2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
       ,  NULL );
 
     xTaskCreate(
@@ -217,7 +220,7 @@ void setup() {
       ,  (const portCHAR *) "PressButton"
       ,  128  // Stack size
       ,  NULL
-      ,  3 //tskIDLE_PRIORITY + 2  // Priority
+      ,  2 //tskIDLE_PRIORITY + 2  // Priority
       ,  NULL );
 
     xTaskCreate(
@@ -225,7 +228,7 @@ void setup() {
       ,  (const portCHAR *) "Main"
       ,  512  // Stack size
       ,  NULL
-      ,  4 //configMAX_PRIORITIES //tskIDLE_PRIORITY + 2  // Priority
+      ,  3 //configMAX_PRIORITIES //tskIDLE_PRIORITY + 2  // Priority
       ,  NULL );
 
     //xTaskCreate(

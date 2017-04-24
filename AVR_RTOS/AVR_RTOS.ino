@@ -135,6 +135,8 @@ void setup() {
   lcd.print(analogRead(A0));
   delay(1000);
 
+  stepper1.setMinPulseWidth  (20);
+
 
   // initialize timer1 
   noInterrupts();           // disable all interrupts

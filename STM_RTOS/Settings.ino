@@ -391,7 +391,6 @@ void setting_mode () {
           lcd.setCursor(0, 1);
           lcd.print("                ");
           lcd.setCursor(0, 1);
-          //lcd.print(autoDistans);
           lcd.print(autoDistance);
           xSemaphoreGive( xDisplayFree );
           lastPrint = millis();
@@ -451,7 +450,10 @@ void setting_mode () {
           lcd.setCursor(0, 1);
           lcd.print("                ");
           lcd.setCursor(0, 1);
-          lcd.print(autoDirection);
+          //lcd.print(autoDirection);
+          int i;
+          if (autoDirection > 0) i = 1; else i = 0;
+          lcd.write((byte) i);
           xSemaphoreGive( xDisplayFree );
           lastPrint = millis();
         }
@@ -502,25 +504,25 @@ void setting_mode () {
         }
       }
       if (button == BUTTON_DOWN) {
-        if (autoSpeed > 30) {
+        if (autoSpeed > 20) {
           autoSpeed--; 
           vTaskDelay(220);
         }
       }
       else if (button == BUTTON_LEFT) {
-        if (autoSpeed > 40) {
+        if (autoSpeed > 30) {
           autoSpeed -= 10; 
           vTaskDelay(220);
         }
       }
       else if (button == BUTTON_UP) {
-        if (autoSpeed < 300) {
+        if (autoSpeed < 400) {
           autoSpeed++; 
           vTaskDelay(220);
         }
       }
       else if (button == BUTTON_RIGHT) {
-        if (autoSpeed < 290) {
+        if (autoSpeed < 390) {
           autoSpeed += 10; 
           vTaskDelay(220);
         }
