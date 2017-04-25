@@ -84,14 +84,14 @@ int autoDistanceAddr = 0x801F010; // 4 byte size!
 int button;
 int mainMode = 0; //0 - Main menu
 int mainMenu = 0;
-unsigned long currentMillis = millis();
+//unsigned long currentMillis = millis();
 
 uint32 timerCount = 0;
 
 xSemaphoreHandle xDisplayFree;
 
 HardwareTimer timer(2);
-#define LED_RATE 500 //500000    // in microseconds; should give 0.5Hz toggles
+#define LED_RATE 300 //500000    // in microseconds; should give 0.5Hz toggles
 
 static void vPowerPumpTask(void *pvParameters) {
     for (;;) {
@@ -128,7 +128,6 @@ void setup() {
     manualMaxSpeed = EEPROMReadInt(manualMaxSpeedAddr);
     manualSpeed = EEPROMReadInt(manualSpeedAddr);
     manualAcceleration = EEPROMReadInt(manualAccelerationAddr);
-    //autoDistans = EEPROMReadInt(autoDistansAddr);
     autoDirection = EEPROMReadInt(autoDirectionAddr);
     autoSpeed = EEPROMReadInt(autoSpeedAddr);
     backLight = EEPROMReadInt(backLightAddr);
@@ -136,7 +135,7 @@ void setup() {
   
     autoPause = 1;    
     
-    
+    pinMode(PA2, OUTPUT);
     
     
     // initialize the digital pin as an output:
@@ -161,8 +160,7 @@ void setup() {
     pinMode(PA0, INPUT_PULLUP); //keyboard 1
     pinMode(PA1, INPUT_PULLUP); //keyboard 2
 
-    stepper1.setMinPulseWidth  (20); 
-
+    stepper1.setMinPulseWidth  (19); 
 
     lcd.createChar(0, Up);
     lcd.createChar(1, Down);
@@ -190,6 +188,7 @@ void setup() {
     //EEPROM_writeAnything(MaxSpeedAddr, -24);
 
     vSemaphoreCreateBinary(xDisplayFree);
+
     
     //xTaskCreate(vPowerPumpTask,
     //            "PowerPump",
@@ -210,7 +209,7 @@ void setup() {
     xTaskCreate(
       TaskLCD
       ,  (const portCHAR *)"LCD"   // A name just for humans
-      ,  512  // This stack size can be checked & adjusted by reading the Stack Highwater
+      ,  256  // This stack size can be checked & adjusted by reading the Stack Highwater
       ,  NULL
       ,  1 //tskIDLE_PRIORITY + 2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
       ,  NULL );
@@ -246,6 +245,7 @@ void setup() {
 
 void loop() {
     // Insert background code here
+    
 }
 
 
@@ -255,7 +255,9 @@ void handler_steep(void) {
       //digitalWrite(BOARD_LED_PIN, !digitalRead(BOARD_LED_PIN));
       //timerCount = 0;
     //}
+    //digitalWrite(PA2, HIGH);
     if (ST1 == 1) stepper1.run();
+    //digitalWrite(PA2, LOW);
     //if (ST2 == 1) stepper2.run();    
 }
 

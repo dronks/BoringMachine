@@ -71,6 +71,8 @@ void auto_mode() {
     }
     if (button == BUTTON_BACK) {
       ST1 = 0;
+      stepper1.setSpeed(0);
+      stepper1.move(0);
       stepper1.stop(); // Stop as fast as possible: sets new target
       stepper1.runToPosition();
       mainMode = 0;
@@ -91,6 +93,8 @@ void auto_mode() {
   }
   else {
     ST1 = 0;
+    stepper1.setSpeed(0);
+    stepper1.move(0);
     stepper1.stop(); // Stop as fast as possible: sets new target
     stepper1.runToPosition();
     //if ( xSemaphoreTake( xDisplayFree, ( TickType_t ) 5 ) == pdTRUE ) {
@@ -108,6 +112,8 @@ void auto_mode() {
     //firstAuto = 1;
     if (button == BUTTON_BACK) {
       ST1 = 0;
+      stepper1.setSpeed(0);
+      stepper1.move(0);
       stepper1.stop(); // Stop as fast as possible: sets new target
       stepper1.runToPosition();
       mainMode = 0;

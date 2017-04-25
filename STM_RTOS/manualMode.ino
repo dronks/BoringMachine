@@ -46,10 +46,13 @@ void manual_mode() {
       //if (LastKey != BUTTON_UP) {
         //stepper1.moveTo(13000);
         stepper1.move(3000);
-        if ( xSemaphoreTake( xDisplayFree, ( TickType_t ) 5 ) == pdTRUE ) {
-          lcd.setCursor(0, 0);
-          lcd.print("Up  ");
-          xSemaphoreGive( xDisplayFree );
+        if ((millis() - lastPrint) > 250) {
+          if ( xSemaphoreTake( xDisplayFree, ( TickType_t ) 5 ) == pdTRUE ) {
+            lcd.setCursor(0, 0);
+            lcd.print("Up  ");
+            xSemaphoreGive( xDisplayFree );
+            lastPrint = millis();
+          }
         }
       //}
       ST1 = 1;
@@ -74,16 +77,20 @@ void manual_mode() {
     //  }
     //}
     LastKey = BUTTON_UP;
+    //vTaskDelay(170); 
   }
   else if (button == BUTTON_DOWN) {
     //if (stepper1.currentPosition() > 0) {
       //if (LastKey != BUTTON_DOWN) {
         //stepper1.moveTo(0);
         stepper1.move(-3000);
-        if ( xSemaphoreTake( xDisplayFree, ( TickType_t ) 5 ) == pdTRUE ) {
-          lcd.setCursor(0, 0);
-          lcd.print("Down");
-          xSemaphoreGive( xDisplayFree );
+        if ((millis() - lastPrint) > 250) {
+          if ( xSemaphoreTake( xDisplayFree, ( TickType_t ) 5 ) == pdTRUE ) {
+            lcd.setCursor(0, 0);
+            lcd.print("Down");
+            xSemaphoreGive( xDisplayFree );
+            lastPrint = millis();
+          }
         }
       //}
       ST1 = 1;     
@@ -107,7 +114,8 @@ void manual_mode() {
         //xSemaphoreGive( xDisplayFree );
     //  }
     //}
-    LastKey = BUTTON_DOWN;       
+    LastKey = BUTTON_DOWN;
+    //vTaskDelay(170);       
   }
 /*  
   else if (button == BUTTON_LEFT) {
@@ -203,20 +211,24 @@ void manual_mode() {
       //stepper2.setMaxSpeed(900);
       //stepper2.setSpeed(880);
       //stepper2.setAcceleration(1000);
-      //stepper2.move(0);      
-      if ( xSemaphoreTake( xDisplayFree, ( TickType_t ) 5 ) == pdTRUE ) {     
-        lcd.setCursor(0, 0);
-        lcd.print("Stop        ");
-        lcd.setCursor(5, 0);
-        lcd.print(stepper1.currentPosition());
-        //lcd.setCursor(0, 1);
-        //lcd.print("Stop      ");
-        //lcd.setCursor(5, 1);
-        //lcd.print(stepper2.currentPosition());        
-        xSemaphoreGive( xDisplayFree );
+      //stepper2.move(0); 
+      if ((millis() - lastPrint) > 250) {     
+        if ( xSemaphoreTake( xDisplayFree, ( TickType_t ) 5 ) == pdTRUE ) {     
+          lcd.setCursor(0, 0);
+          lcd.print("Stop        ");
+          lcd.setCursor(5, 0);
+          lcd.print(stepper1.currentPosition());
+          //lcd.setCursor(0, 1);
+          //lcd.print("Stop      ");
+          //lcd.setCursor(5, 1);
+          //lcd.print(stepper2.currentPosition());        
+          xSemaphoreGive( xDisplayFree );
+          lastPrint = millis();
+        }
       }
     }
     LastKey = BUTTON_NONE;
+    //vTaskDelay(170);
   }
 }
 
