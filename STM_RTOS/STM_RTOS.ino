@@ -91,7 +91,7 @@ uint32 timerCount = 0;
 xSemaphoreHandle xDisplayFree;
 
 HardwareTimer timer(2);
-#define LED_RATE 300 //500000    // in microseconds; should give 0.5Hz toggles
+#define LED_RATE 5 //500000    // in microseconds; should give 0.5Hz toggles
 
 static void vPowerPumpTask(void *pvParameters) {
     for (;;) {
@@ -250,6 +250,7 @@ void loop() {
 
 
 void handler_steep(void) {
+    noInterrupts();
     //timerCount++;
     //if (timerCount == 10000) {
       //digitalWrite(BOARD_LED_PIN, !digitalRead(BOARD_LED_PIN));
@@ -258,7 +259,8 @@ void handler_steep(void) {
     //digitalWrite(PA2, HIGH);
     if (ST1 == 1) stepper1.run();
     //digitalWrite(PA2, LOW);
-    //if (ST2 == 1) stepper2.run();    
+    //if (ST2 == 1) stepper2.run();
+    interrupts();    
 }
 
 

@@ -46,25 +46,69 @@ void auto_mode() {
           lcd.print("  Pause         ");
           xSemaphoreGive( xDisplayFree );
         }
-        stepper1.run();
+        //stepper1.run();
         ST1 = 1;
         vTaskDelay(270); 
       }
       else {
         autoPause = 1;
         if ( xSemaphoreTake( xDisplayFree, ( portTickType ) 5 ) == pdTRUE ) {
+          int i;
+          if (autoDistance < 0) i = 0; else i = 1;
+          lcd.setCursor(15, 1);
+          lcd.print(" ");
+          lcd.setCursor(15, 1);
+          lcd.write((byte) i);
           lcd.setCursor(0, 1);
-          lcd.print("            ");
-          lcd.setCursor(0, 1);
-          lcd.print("  Start         ");
+          if (autoDirection) i = 1; else i = 0;
+          lcd.write((byte) i);
+          lcd.print("Start FastBack");
+          //lcd.setCursor(0, 1);
+          //lcd.print("            ");
+          //lcd.setCursor(0, 1);
+          //lcd.print(" Start FastBack ");
           xSemaphoreGive( xDisplayFree );
         }
         ST1 = 0;
         vTaskDelay(270);
       }
     }
+    else if (button == BUTTON_RIGHT && autoPause) {
+      button = BUTTON_NONE;
+      autoDistance *= -1;
+      long dst = (autoDistance + stepper1.distanceToGo());
+      //autoDistance *= -1;
+      stepper1.setSpeed(0);
+      stepper1.move(0);
+      stepper1.stop(); // Stop as fast as possible: sets new target
+      stepper1.runToPosition();
+      stepper1.setMaxSpeed(manualMaxSpeed);
+      stepper1.setAcceleration(manualAcceleration);
+      stepper1.setSpeed(manualSpeed);
+      stepper1.move(dst);            
+      ST1 = 1;
+      if ( xSemaphoreTake( xDisplayFree, ( portTickType ) 5 ) == pdTRUE ) {
+       lcd.clear();
+       lcd.setCursor(0, 0);
+       lcd.print("Auto");
+       lcd.setCursor(0, 1);
+       lcd.print("  Pause         ");
+       //lcd.print("FastBack");
+       lcd.setCursor(5, 0);
+       int di = stepper1.distanceToGo();
+       if (di < 0) di *= -1;
+       lcd.print(di);
+       //lcd.print(stepper1.distanceToGo());
+
+       xSemaphoreGive( xDisplayFree );
+      }
+      vTaskDelay(270);      
+    }
+    
     if (button == BUTTON_BACK) {
       ST1 = 0;
+      stepper1.setSpeed(0);
+      stepper1.move(0);
       stepper1.stop(); // Stop as fast as possible: sets new target
       stepper1.runToPosition();
       mainMode = 0;
@@ -81,19 +125,29 @@ void auto_mode() {
   }
   else {
     ST1 = 0;
+    stepper1.setSpeed(0);
+    stepper1.move(0);
     stepper1.stop(); // Stop as fast as possible: sets new target
     stepper1.runToPosition();
     if ( xSemaphoreTake( xDisplayFree, ( portTickType ) 5 ) == pdTRUE ) {
       //lcd.setCursor(0, 0);
       //lcd.print("Auto");
-      lcd.setCursor(12, 0);
+      int i;
+      if (autoDistance < 0) i = 0; else i = 1;
+      lcd.setCursor(15, 1);
       lcd.print(" ");
+      lcd.setCursor(15, 1);
+      lcd.write((byte) i);
       lcd.setCursor(0, 1);
-      lcd.print("     FastBack  ");
+      if (autoDirection) i = 1; else i = 0;
+      lcd.write((byte) i);
+      lcd.print("Start FastBack");
       xSemaphoreGive( xDisplayFree );
     }    
     if (button == BUTTON_BACK) {
       ST1 = 0;
+      stepper1.setSpeed(0);
+      stepper1.move(0);
       stepper1.stop(); // Stop as fast as possible: sets new target
       stepper1.runToPosition();
       mainMode = 0;
@@ -128,6 +182,9 @@ void auto_mode() {
        xSemaphoreGive( xDisplayFree );
       }
       vTaskDelay(270);      
+    }
+    else if (button == BUTTON_LEFT) {
+      firstAuto = 1;
     }
     //vTaskDelay(1);    
   }

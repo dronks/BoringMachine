@@ -11,6 +11,8 @@
 #define LCD_B_L_PIN 10
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7 ); // 10 - backLight
 
+#define ST1_EN 21
+#define ST2_EN 17
 AccelStepper stepper1(AccelStepper::DRIVER, 19, 20); //21 - Enable 20 - DIR 19 - Steep
 //AccelStepper stepper2(AccelStepper::DRIVER, 15, 16); //17 - Enable 16 - DIR 15 - Steep
 int ST1=0; // mask stepper1 run 
