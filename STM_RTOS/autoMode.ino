@@ -9,6 +9,10 @@ void auto_mode() {
      }
      digitalWrite(ST2_EN, LOW);
      digitalWrite(ST1_EN, LOW);
+     stepper1.setSpeed(0);
+     stepper1.move(0);
+     stepper1.stop(); // Stop as fast as possible: sets new target
+     stepper1.runToPosition();
      stepper1.setMaxSpeed(autoSpeed);
      stepper1.setAcceleration(1000);
      stepper1.setSpeed(autoSpeed);
@@ -62,7 +66,7 @@ void auto_mode() {
           lcd.setCursor(0, 1);
           if (autoDirection) i = 1; else i = 0;
           lcd.write((byte) i);
-          lcd.print("Start FastBack");
+          lcd.print("Continue FBack");
           //lcd.setCursor(0, 1);
           //lcd.print("            ");
           //lcd.setCursor(0, 1);
@@ -73,7 +77,7 @@ void auto_mode() {
         vTaskDelay(270);
       }
     }
-    else if (button == BUTTON_RIGHT && autoPause) {
+    else if (button == BUTTON_RIGHT && autoPause && !ST1) {
       button = BUTTON_NONE;
       autoDistance *= -1;
       long dst = (autoDistance + stepper1.distanceToGo());
@@ -102,7 +106,7 @@ void auto_mode() {
 
        xSemaphoreGive( xDisplayFree );
       }
-      vTaskDelay(270);      
+      vTaskDelay(170);      
     }
     
     if (button == BUTTON_BACK) {
@@ -161,6 +165,10 @@ void auto_mode() {
     }
     else if (button == BUTTON_RIGHT) {
       autoDistance *= -1;
+      stepper1.setSpeed(0);
+      stepper1.move(0);
+      stepper1.stop(); // Stop as fast as possible: sets new target
+      stepper1.runToPosition();
       stepper1.setMaxSpeed(manualMaxSpeed);
       stepper1.setAcceleration(manualAcceleration);
       stepper1.setSpeed(manualSpeed);
@@ -181,12 +189,13 @@ void auto_mode() {
 
        xSemaphoreGive( xDisplayFree );
       }
-      vTaskDelay(270);      
+      vTaskDelay(170);      
     }
     else if (button == BUTTON_LEFT) {
       firstAuto = 1;
     }
-    //vTaskDelay(1);    
+    button = BUTTON_NONE;
+    vTaskDelay(170);    
   }
 }
 
