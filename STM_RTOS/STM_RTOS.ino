@@ -91,7 +91,7 @@ uint32 timerCount = 0;
 xSemaphoreHandle xDisplayFree;
 
 HardwareTimer timer(2);
-#define LED_RATE 5 //500000    // in microseconds; should give 0.5Hz toggles
+#define LED_RATE 300 //500000    // in microseconds; should give 0.5Hz toggles
 
 static void vPowerPumpTask(void *pvParameters) {
     for (;;) {

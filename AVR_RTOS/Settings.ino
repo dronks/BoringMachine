@@ -4,7 +4,7 @@ int parVal = 2;
 
 void setting_mode () {
 
-  //if (autoDistans < 0) autoDistans *= -1;
+ 
   if (autoDistance < 0) autoDistance *= -1;
   if (setMode == 0) {
     if (button == BUTTON_UP) {
@@ -409,33 +409,33 @@ void setting_mode () {
         }
       }
       if (button == BUTTON_DOWN) {
-        if (autoDistance > 10) {
-          autoDistance -= 10; 
+        if (autoDistance > 100) {
+          autoDistance -= 100; 
           vTaskDelay(12);
         }
       }
       else if (button == BUTTON_LEFT) {
-        if (autoDistance > 1000) {
-          autoDistance -= 1000; 
+        if (autoDistance > 10000) {
+          autoDistance -= 10000; 
           vTaskDelay(12);
         }
       }
       else if (button == BUTTON_UP) {
-        if (autoDistance < 1999990) {
-          autoDistance += 10; 
+        if (autoDistance < 1999900) {
+          autoDistance += 100; 
           vTaskDelay(12);
         }
       }
       else if (button == BUTTON_RIGHT) {
-        if (autoDistance < 1999000) {
-          autoDistance += 1000; 
+        if (autoDistance < 1990000) {
+          autoDistance += 10000; 
           vTaskDelay(12);
         }
       }
       else if (button == BUTTON_SELECT) {
         setMode = 2;
         setMenu = 0;
-        //EEPROMWriteInt(autoDistansAddr, autoDistans);
+        
         EEPROM_writeAnything(autoDistanceAddr, autoDistance);
         vTaskDelay(15);
         button = BUTTON_NONE;

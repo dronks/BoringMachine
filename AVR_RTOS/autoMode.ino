@@ -3,7 +3,7 @@ int firstAuto = 1;
 
 void auto_mode() {
   if (firstAuto) {
-     //autoDistans = EEPROMReadInt(autoDistansAddr);
+     
      EEPROM_readAnything(autoDistanceAddr, autoDistance);
      if (autoDirection) {
         autoDistance *= -1;
@@ -123,7 +123,7 @@ void auto_mode() {
       stepper1.runToPosition();
       mainMode = 0;
       firstAuto = 1;
-      //autoDinstans = 5000;
+      
       digitalWrite(ST2_EN, HIGH);
       digitalWrite(ST1_EN, HIGH);
       //if ( xSemaphoreTake( xDisplayFree, ( TickType_t ) 5 ) == pdTRUE ) {
@@ -170,7 +170,7 @@ void auto_mode() {
       stepper1.runToPosition();
       mainMode = 0;
       firstAuto = 1;
-      //autoDinstans = 5000;
+     
       digitalWrite(ST2_EN, HIGH);
       digitalWrite(ST1_EN, HIGH);
       //if ( xSemaphoreTake( xDisplayFree, ( TickType_t ) 5 ) == pdTRUE ) {

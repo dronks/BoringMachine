@@ -60,7 +60,7 @@ int PressedButton = 0;
 
 const byte interruptPin = 18; //Mega, Mega2560, MegaADK 2, 3, 18, 19, 20, 21
 int INTCount = 0;
-void RPMCount() {
+static void RPMCount() {
   INTCount++;
 }
 
@@ -68,7 +68,7 @@ int bestGameTimeAddr = 0;
 static int manualMaxSpeed;
 static int manualSpeed;
 static int manualAcceleration;
-static int autoDistans;
+
 static long autoDistance;
 static int autoDirection;
 static int autoSpeed;
@@ -77,7 +77,7 @@ int backLight;
 int manualMaxSpeedAddr = 2;
 int manualSpeedAddr = 4;
 int manualAccelerationAddr = 6;
-int autoDistansAddr = 8;
+//int autoDistansAddr = 8;
 int autoDirectionAddr = 10;
 int autoSpeedAddr = 12;
 int backLightAddr = 14;
@@ -230,7 +230,7 @@ void TaskBlink(void *pvParameters)  // This is a task.
         lcd.print(rpm);
         if (mainMode == 1) {
           lcd.setCursor(5, 0);
-          lcd.print("     ");
+          lcd.print("      ");
           lcd.setCursor(5, 0);
           lcd.print(stepper1.currentPosition());
           //lcd.setCursor(5, 1);
@@ -240,16 +240,16 @@ void TaskBlink(void *pvParameters)  // This is a task.
         }
         if (mainMode == 2) {
           int i;
-          //if (autoDistans > 0) i = 0; else i = 1;
+          
           if (autoDistance > 0) i = 0; else i = 1;
           lcd.setCursor(12, 0);
           lcd.print(" ");
           lcd.setCursor(12, 0);
           lcd.write((byte) i);
           lcd.setCursor(5, 0);
-          lcd.print("      ");
+          lcd.print("       ");
           lcd.setCursor(5, 0);
-          int di = stepper1.distanceToGo();
+          long di = stepper1.distanceToGo();
           if (di < 0) di *= -1;
           lcd.print(di);
           //lcd.setCursor(5, 1);
