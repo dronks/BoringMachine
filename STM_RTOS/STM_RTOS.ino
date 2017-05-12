@@ -303,7 +303,7 @@ void TaskLCD(void *pvParameters)  // This is a task.
           lcd.setCursor(5, 0);
           lcd.print("       ");
           lcd.setCursor(5, 0);
-          int di = stepper1.distanceToGo();
+          long di = stepper1.distanceToGo();
           if (di < 0) di *= -1;
           lcd.print(di);
           //lcd.setCursor(5, 1);

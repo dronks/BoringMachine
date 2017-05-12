@@ -9,6 +9,7 @@
 #include <AccelStepper.h>
 
 #define LCD_B_L_PIN 10
+#define BOARD_LED_PIN 14 // Finish auto mode pin  (LOW - On; HIGH - Off)
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7 ); // 10 - backLight
 
 #define ST1_EN 21
@@ -115,7 +116,8 @@ void setup() {
   EEPROM_readAnything(autoDistanceAddr, autoDistance);
 
   autoPause = 1;
-  
+  pinMode(BOARD_LED_PIN, OUTPUT);
+  digitalWrite(BOARD_LED_PIN, HIGH);
   lcd.begin(16, 2);
   button = 0;
   // Set interupt

@@ -103,7 +103,7 @@ void auto_mode() {
        lcd.print("  Pause         ");
        //lcd.print("FastBack");
        lcd.setCursor(5, 0);
-       int di = stepper1.distanceToGo();
+       long di = stepper1.distanceToGo();
        if (di < 0) di *= -1;
        lcd.print(di);
        //lcd.print(stepper1.distanceToGo());
@@ -141,15 +141,13 @@ void auto_mode() {
     stepper1.runToPosition();
     if (alarm) digitalWrite(BOARD_LED_PIN, LOW);
     if ( xSemaphoreTake( xDisplayFree, ( portTickType ) 5 ) == pdTRUE ) {
-      //lcd.setCursor(0, 0);
-      //lcd.print("Auto");
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print("Auto        ");
        //lcd.setCursor(0, 1);
        //lcd.print("Start");
       lcd.setCursor(5, 0);
-      int di = stepper1.distanceToGo();
+      long di = stepper1.distanceToGo();
       if (di < 0) di *= -1;
       lcd.print(di);
       int i;
@@ -202,7 +200,7 @@ void auto_mode() {
        lcd.print("  Pause         ");
        //lcd.print("FastBack");
        lcd.setCursor(5, 0);
-       int di = stepper1.distanceToGo();
+       long di = stepper1.distanceToGo();
        if (di < 0) di *= -1;
        lcd.print(di);
        //lcd.print(stepper1.distanceToGo());
